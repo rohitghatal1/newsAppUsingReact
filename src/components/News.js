@@ -52,7 +52,7 @@ export class News extends Component {
   }
 
   async componentDidMount(){
-    let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=13ea314698ae4fd6966b5f94ddde14a8";
+    let url = "https://newsapi.org/v2/everything?q=apple&from=2024-07-31&to=2024-07-31&sortBy=popularity&apiKey=13ea314698ae4fd6966b5f94ddde14a8";
     let data = await fetch(url);
     let fetchedData = await data.json();
     this.setState({articles: fetchedData.articles})
@@ -65,7 +65,7 @@ export class News extends Component {
           <div className="row">
             {this.state.articles.map((element) => {
               return <div className="col-md-4" key={element.url}>
-                <NewsItem title={element.title?element.title.slice(0,45):""} desc={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage} newsUrl ={element.url} />
+                <NewsItem title={element.title?element.title:""} desc={element.description?element.description:""} imageUrl={element.urlToImage} newsUrl ={element.url} />
               </div>
 
             })}
