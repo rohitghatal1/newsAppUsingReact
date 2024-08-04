@@ -16,39 +16,53 @@ export class News extends Component {
 
   async componentDidMount(){
     let url = "https://newsapi.org/v2/everything?q=apple&from=2024-07-31&to=2024-07-31&sortBy=popularity&apiKey=13ea314698ae4fd6966b5f94ddde14a8&page=1&pageSize=30";
+    this.setState({
+      loading:true
+    });
     let data = await fetch(url);
     let fetchedData = await data.json();
-    this.setState({articles: fetchedData.articles})
+    this.setState({
+      articles: fetchedData.articles,
+      loading:false
+    })
   }
 
   handlePrevious = async()=>{
     let url = `https://newsapi.org/v2/everything?q=apple&from=2024-07-31&to=2024-07-31&sortBy=popularity&apiKey=13ea314698ae4fd6966b5f94ddde14a8&page=${this.state.page - 1}&pageSize=30`;
+    this.setState({
+      loading:true
+    });
     let data = await fetch(url);
     let fetchedData = await data.json();
 
     this.setState({
       page: this.state.page - 1,
-      articles: fetchedData.articles
+      articles: fetchedData.articles,
+      loading:false
     })
   }
   handleNext = async()=>{
     let url = `https://newsapi.org/v2/everything?q=apple&from=2024-07-31&to=2024-07-31&sortBy=popularity&apiKey=13ea314698ae4fd6966b5f94ddde14a8&page=${this.state.page + 1}&pageSize=30`;
+    this.setState({
+      loading:true
+    })
     let data = await fetch(url);
     let fetchedData = await data.json();
 
     this.setState({
       page: this.state.page + 1,
-      articles: fetchedData.articles
+      articles: fetchedData.articles,
+      loading:false
     })
   }
   render() {
     return (
       <div>
         <h3 className='container text-center'>Top Headlines</h3>
-        <Spinner/>
+        {this.state.loading && <Spinner/>}
         <div className="container mt-5">
           <div className="row">
-            {this.state.articles.map((element) => {
+            {!this.state.loading && this.state.articles.map((element) => {
               return <div className="col-md-4" key={element.url}>
                 <NewsItem title={element.title?element.title:""} desc={element.description?element.description:""} imageUrl={element.urlToImage} newsUrl ={element.url} />
               </div>
